@@ -46,7 +46,10 @@ describe('chatterbox', function() {
         app.send(message);
         ajaxOptions = typeof $.ajax.args[0][0] === 'object' ? $.ajax.args[0][0] : $.ajax.args[0][1];
         var result = ajaxOptions.data;
-        expect(result).to.deep.equal(message);
+        console.log(ajaxOptions);
+        console.log(JSON.stringify(result));
+        console.log(JSON.stringify(message))
+        expect(result).to.deep.equal(JSON.stringify(message));
         done();
       });
 
@@ -61,6 +64,7 @@ describe('chatterbox', function() {
         app.fetch();
         expect($.ajax.calledOnce).to.be.true;
         ajaxUrl = typeof $.ajax.args[0][0] === 'string' ? $.ajax.args[0][0] : $.ajax.args[0][0].url;
+        console.log(app)
         expect(ajaxUrl).to.equal(app.server);
         done();
       });
