@@ -32,18 +32,18 @@ class App { // if subclass, need 'extends Superclass'
   }
 
   fetch () {
-    // var constraints = 'order=-createdAt';
+    var constraints = 'order="-createdAt"';
     // var constraints = 'limit=50';
     $.ajax({
       url: this.server, // + '?' + constraints,
       type: 'GET',
       contentType: 'application/json', //POST request not GET
-      // data: 'where={"post":{"__type":"Pointer","className":"Post"}}'
-      data: {limit: 1000, order: '-createdAt'},
-      // data: 'order="-createdAt"',
+      // data: 'where={"post":{"__type":"Pointer","username":"John"}}'
+      data: {limit: 500, order: '-createdAt', },
+      // data: 'limit=10',
       success: function (data) {
         console.log('chatterbox: Data fetched: ', data);
-        // console.log(data);
+        console.log(data);
         var filtered = _.filter(data.results, (value) => {
           return value.username === 'Kenny';
         });
@@ -144,3 +144,10 @@ var message1 = {
 };
 // app.send(message1);
 app.fetch();
+// app.renderMessage(message1);
+
+
+
+
+
+
