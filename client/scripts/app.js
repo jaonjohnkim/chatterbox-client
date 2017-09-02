@@ -4,7 +4,7 @@ class App { // if subclass, need 'extends Superclass'
     // define properties
     // format: this.propertyName = property;
     // this.server = 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages';
-    this.server = 'http://parse.sfm6.hackreactor.com/';
+    this.server = 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages';
     this.init();
   }
   
@@ -12,8 +12,6 @@ class App { // if subclass, need 'extends Superclass'
   //   this.value = newValue;  
   // }
   init () {
-
-
     $('#main .username').click(this.handleUsernameClick);
     $('#send .submit').submit(this.handleSubmit);
   }
@@ -21,10 +19,10 @@ class App { // if subclass, need 'extends Superclass'
     $.ajax({
       url: this.server,
       type: 'POST',
-      data: message,
-      contentType: 'application/json',
+      data: JSON.stringify(message),
+      contentType: 'application/json', //This might be the reason for JSON stringify
       success: function (data) {
-        console.log('chatterbox: Message sent');
+        console.log('chatterbox: Message sent', data);
       },
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -34,12 +32,22 @@ class App { // if subclass, need 'extends Superclass'
   }
 
   fetch () {
+    // var constraints = 'order=-createdAt';
+    // var constraints = 'limit=50';
     $.ajax({
-      url: this.server,
+      url: this.server, // + '?' + constraints,
       type: 'GET',
-      contentType: 'application/json',
+      contentType: 'application/json', //POST request not GET
+      // data: 'where={"post":{"__type":"Pointer","className":"Post"}}'
+      data: {limit: 1000, order: '-createdAt'},
+      // data: 'order="-createdAt"',
       success: function (data) {
-        console.log('chatterbox: Data fetched');
+        console.log('chatterbox: Data fetched: ', data);
+        // console.log(data);
+        var filtered = _.filter(data.results, (value) => {
+          return value.username === 'Kenny';
+        });
+        console.log(filtered); 
       },
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -53,22 +61,24 @@ class App { // if subclass, need 'extends Superclass'
       type: 'DELETE',
       contentType: 'application/json',
       success: function (data) {
-        console.log(data);
+        $('#chats').children().remove();
+        console.log('Removed messages');
       },
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
         console.error('chatterbox: Failed to delete message', data);
       }
     });
-    $('#chats').children().remove();
+    
   }
   renderMessage(message) {
     $.ajax({
       url: this.server,
       type: 'POST',
+      data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
-        
+        console.log(data);
         console.log('chatterbox: message rendered');
       },
       error: function (data) {
@@ -77,7 +87,7 @@ class App { // if subclass, need 'extends Superclass'
       }
     });
     
-    var userName = $('<span />').attr('class', 'username').html(message.username);
+    var userName = $('<a />').attr('class', 'username').html(message.username);
     var roomName = $('<span />').attr('class', 'roomname').html(message.roomname);
     var text = $('<div />').attr('class', 'text').html(message.text);
     var header = $('<div />').append(userName).append('@').append(roomName).append(' : ').append(text);
@@ -86,18 +96,51 @@ class App { // if subclass, need 'extends Superclass'
 
   }
   renderRoom(name) {
+    $.ajax({
+      url: this.server,
+      type: 'PUT', //Update
+      data: JSON.stringify(name),
+      contentType: 'application/json',
+      success: function (data) {
+        console.log(data);
+      },
+      error: function (data) {
+        // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
+        console.error('chatterbox: Failed to delete message', data);
+      }
+    });
     var option = document.createElement('option');
     option.text = name;
     var room = document.getElementById('roomSelect');
     var newRoom = room.add(option);
   }
   handleUsernameClick() {
+    $.ajax({
+      url: this.server,
+      type: 'PUT', //update object
+      contentType: 'application/json',
+      success: function (data) {
+        console.log(data);
+      },
+      error: function (data) {
+        // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
+        console.error('chatterbox: Failed to delete message', data);
+      }
+    });
     console.log(this);
   }
   handleSubmit() {
-    console.log(this);
+    var inputMsg = $('#message').val();
+    // console.log(inputMsg);
   }  
 }
 
 
 var app = new App();
+var message1 = {
+  username: 'John Kim',
+  text: 'I like to beatbox',
+  roomname: 'lobby'
+};
+// app.send(message1);
+app.fetch();
