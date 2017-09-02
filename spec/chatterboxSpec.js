@@ -49,7 +49,7 @@ describe('chatterbox', function() {
         // console.log(ajaxOptions);
         // console.log(JSON.stringify(result));
         // console.log(JSON.stringify(message));
-        expect(result).to.deep.equal(message);
+        expect(result).to.deep.equal(JSON.stringify(message));
         done();
       });
 

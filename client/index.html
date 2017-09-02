@@ -30,12 +30,12 @@
       <!-- <div class="spinner"><img src="client/images/spiffygif_46x46.gif"></div> -->
       <div id="rooms">
         Room:
-        <select id="roomSelect">
+        <select id="roomSelect" onchange="app.changeRoom(value)">
         </select>
       </div>
       <form action="#" id="send" method="post">
         <input type="text" name="message" id="message"/>
-        <input type="submit" name="submit" class="submit"/>
+        <input type="button" name="submit" class="submit" value="submit"/>
       </form>
       <div id="chats"></div>
     </div>    

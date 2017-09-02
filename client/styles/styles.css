@@ -6,13 +6,15 @@ body {
 }
 
 #main, #chats {
-    width: 500px;
+    width: 600px;
     margin: auto;
     text-align: left;
+    overflow-wrap: break-word;
     background: white;
-    padding: 50px 60px;
+    padding: 3px 3px;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
+    display: inline-block;
 }
 
 #main h1 {
@@ -20,6 +22,7 @@ body {
     font-size: 35px;
     margin-bottom: 5px;
     padding: 5px;
+    text-align: center;
 }
 
 #main h1 span {
@@ -63,6 +66,7 @@ form input[type=text] {
     padding: 5px;
     margin-bottom: 5px;
     background-color: #eee;
+    position: relative;
 }
 
 .chat .username {
@@ -87,4 +91,5 @@ form input[type=text] {
     color: #fff;
     background-color: #0090da;
 }
+
 
