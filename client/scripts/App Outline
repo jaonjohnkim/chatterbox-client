@@ -1,0 +1,45 @@
+Chatterbox App Outline
+
+What I need:
+
+- Variables I need:
+  - selectedRoom
+  - selectedUser
+  - 
+
+- Initialization Function to set up the event handlers and first fetch
+
+- Fetch to grab the messages
+  - If username specified, then only grab messages by that person
+  - If roomname specified, then only grab messages by that roomname
+  - If none specified, grab EVERYTHING
+
+- send: message to send the messages from my account to the server
+
+- clearMessages: reset the DOM to populate the room
+
+- renderMessages: 
+  - clearMessages if necessary
+  - populate the messages
+
+- renderRoom: 
+  - clearMessages if necessary
+  - populate the messages with only that room
+
+- handleUsernameClick:
+  - clearMessages if necessary
+  - fetch that username messages
+  - add this username to friends list
+
+- addFriend
+  - the username clicked, if not self, add to self's friend property
+  - update server with self's new friend property
+
+- handleSubmit:
+  - send user's input to the server
+  - fetch everything again
+  - render messages
+
+- changeRoom:
+  - clearMessages
+  - renderRoom

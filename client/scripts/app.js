@@ -52,6 +52,18 @@ class App { // if subclass, need 'extends Superclass'
         console.error('chatterbox: Failed to send message', data);
       }
     });
+
+    var sendRequest = $.ajax({
+      url: this.server,
+      type: 'POST',
+      data: JSON.stringify(message),
+      contentType: 'application/json'
+    });
+    
+    var sendRequest2 = sendRequest.done((msg) => { console.log(msg); })
+    sendRequest2.done();
+    sendRequest.fail(() => { console.log('Send failed'); });
+    
   }
 
   fetch () {
@@ -92,7 +104,7 @@ class App { // if subclass, need 'extends Superclass'
           // if (no Scripts) {
           context.renderMessage(oneChat);
           // }
-
+          console.log(data);
           // render rooms but check first if the same room exists
           var room = oneChat.roomname;
           var arrOfRooms = $('#roomSelect')[0].childNodes;
